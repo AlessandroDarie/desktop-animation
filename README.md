@@ -12,14 +12,14 @@ This Python script allows you to create relaxing animated desktop videos by appl
 ## ✨ Available Effects
 
 You can combine multiple effects:
-- `zoom`: slow in/out movement
-- `luccichii`: soft sparkles floating over the image
-- `nebbia`: horizontal fog drift
-- `pulsazione`: brightness breathing
-- `tonalita`: hue cycling for ambient color change
-- `riflesso`: diagonal reflective sweep
-- `pioggia`: animated rain effect
-- `ondulazione`: dreamy wave distortion
+- `ZOOM`: slow in/out movement
+- `SPARKLE PARTICLES`: soft sparkles floating over the image
+- `FOG`: horizontal fog drift
+- `PULSATION`: brightness breathing
+- `HUE SHIFT`: hue cycling for ambient color change
+- `MOVING REFLECTION`: diagonal reflective sweep
+- `RAIN`: animated rain effect
+- `WAVE DISTORTION`: dreamy wave distortion
 
 ---
 
