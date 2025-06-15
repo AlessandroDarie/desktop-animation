@@ -1,6 +1,6 @@
 import os
 import random
-from PIL import Image, ImageDraw, ImageEnhance
+from PIL import Image, ImageDraw, ImageEnhance, ImageFilter
 from math import cos, sin, pi
 import numpy as np
 from moviepy.video.io.ImageSequenceClip import ImageSequenceClip
@@ -115,10 +115,16 @@ def apply_wave(image: Image.Image, t_norm):
         warped[..., i] = map_coordinates(arr[..., i], coords, order=1, mode='reflect')
     return Image.fromarray(warped)
 
-# === GENERATE FRAMES IN MEMORY ===
+# === GLOW EFFECT ===
+def apply_glow(image: Image.Image, t_norm):
+    glow_intensity = 0.3 + 0.7 * ease_sine(t_norm)  # oscillates between 0.3 and 1.0
+    blurred = image.filter(ImageFilter.GaussianBlur(radius=15))
+    return Image.blend(image, blurred, alpha=glow_intensity)
+
+# === FRAME GENERATION ===
 def generate_frames(image_path, effects, mirror_loop):
     base_img = Image.open(image_path).convert("RGB").resize((1920, 1080))
-    particles = generate_static_particles(n=20) if "luccichii" in effects else []
+    particles = generate_static_particles(n=20) if "SPARKLE PARTICLES" in effects else []
     frames = []
 
     total = frame_count
@@ -130,22 +136,24 @@ def generate_frames(image_path, effects, mirror_loop):
         t_norm = i / frame_count
         frame = base_img.copy()
 
-        if "luccichii" in effects:
+        if "SPARKLE PARTICLES" in effects:
             frame = overlay_particles(frame, particles, t_norm)
-        if "nebbia" in effects:
+        if "FOG" in effects:
             frame = overlay_fog(frame, t_norm)
-        if "riflesso" in effects:
+        if "MOVING REFLECTION" in effects:
             frame = overlay_reflection(frame, t_norm)
-        if "pioggia" in effects:
+        if "RAIN" in effects:
             frame = overlay_rain(frame, t_norm)
-        if "zoom" in effects:
+        if "ZOOM" in effects:
             frame = apply_zoom(frame, t_norm)
-        if "pulsazione" in effects:
+        if "PULSATION" in effects:
             frame = apply_pulsation(frame, t_norm)
-        if "tonalita" in effects:
+        if "HUE SHIFT" in effects:
             frame = apply_hue_shift(frame, t_norm)
-        if "ondulazione" in effects:
+        if "WAVE DISTORTION" in effects:
             frame = apply_wave(frame, t_norm)
+        if "GLOW" in effects:
+            frame = apply_glow(frame, t_norm)    
 
         frames.append(np.array(frame))
 
@@ -202,7 +210,7 @@ def select_background():
 
 # === SELECT ANIMATIONS ===
 def select_animations():
-    available = ["zoom", "luccichii", "nebbia", "pulsazione", "tonalita", "riflesso", "pioggia", "ondulazione"]
+    available = ["ZOOM", "SPARKLE PARTICLES", "FOG", "PULSATION", "HUE SHIFT", "MOVING REFLECTION", "RAIN", "WAVE DISTORTION","GLOW"]
     selected = []
 
     print("\n✨ Available animations:")

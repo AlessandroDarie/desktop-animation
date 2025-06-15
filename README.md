@@ -20,6 +20,7 @@ You can combine multiple effects:
 - `MOVING REFLECTION`: diagonal reflective sweep
 - `RAIN`: animated rain effect
 - `WAVE DISTORTION`: dreamy wave distortion
+- `GLOW`: soft ambient glow effect that pulses over time
 
 ---
 
